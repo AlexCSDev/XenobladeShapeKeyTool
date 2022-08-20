@@ -33,8 +33,9 @@ class XBShapeKeyToolOperator(Operator):
         return stringBytes.decode("utf-8")    
 
     def execute(self, context):
-        print (context.scene.xb_shapekey_tool.path)
-        filename, file_extension = os.path.splitext(context.scene.xb_shapekey_tool.path)
+        absolutePath = bpy.path.abspath(context.scene.xb_shapekey_tool.path)
+        print(absolutePath)
+        filename, file_extension = os.path.splitext(absolutePath)
         if file_extension != ".wimdo":
             self.report({"ERROR"}, "Selected file is not a WIMDO")
             return {'CANCELLED'}
@@ -45,7 +46,7 @@ class XBShapeKeyToolOperator(Operator):
             self.report({"ERROR"}, "Unable to get shape keys, make sure valid object is selected")
             return {'CANCELLED'}
         try:
-            with open(context.scene.xb_shapekey_tool.path, "rb") as f:
+            with open(absolutePath, "rb") as f:
                 magic, = struct.unpack('i', f.read(4))
                 if magic != 1297632580:
                     self.report({"ERROR"}, "File is not a valid WIMDO file!")
@@ -83,8 +84,9 @@ class XBShapeKeyToolOperator(Operator):
             self.report({"INFO"}, "Shape keys successfully renamed")
             return {'FINISHED'}
                             
-        except:
-            self.report({"ERROR"}, "Error while reading the file!")
+        except Exception as e: 
+            print(e)
+            self.report({"ERROR"}, "Error while reading the file! Error has been printed to system console.")
             return {'CANCELLED'}
 
 class XBShapeKeyToolProperties(PropertyGroup):
