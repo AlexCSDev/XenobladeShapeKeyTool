@@ -81,6 +81,12 @@ class XBShapeKeyToolOperator(Operator):
                             print(f'Morph name: {morphName}')
                             f.seek(currentPos)
                             shape_keys[i + 1].name = morphName
+                    else:
+                        self.report({"ERROR"}, "Unable to find morph name table offset in the file! Is the file corrupted?")
+                        return {'CANCELLED'}    
+                else:
+                    self.report({"ERROR"}, "Unable to find model struct offset in the file! Is the file corrupted?")
+                    return {'CANCELLED'}                   				
             self.report({"INFO"}, "Shape keys successfully renamed")
             return {'FINISHED'}
                             
