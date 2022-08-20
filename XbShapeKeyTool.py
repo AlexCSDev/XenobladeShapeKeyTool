@@ -60,6 +60,11 @@ class XBShapeKeyToolOperator(Operator):
                         f.seek(morphTablePos)
                         f.read(4)
                         morphsCount, = struct.unpack('i', f.read(4))
+						
+                        if len(shape_keys) - 1 != morphsCount:
+                            self.report({"ERROR"}, "Shape key count is not equal to morphs count in WIMDO. Are you loading the proper file?")
+                            return {'CANCELLED'}
+						
                         f.read(16)
                         for i in range(morphsCount):
                             shapeNameOffset, = struct.unpack('i', f.read(4))
