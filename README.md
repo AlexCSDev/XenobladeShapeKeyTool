@@ -3,3 +3,6 @@ This is a helper blender addon for [Turk645's Noesis Xenoblade Model Importer](h
 
 ## Installation
 Install like any other blender addon. The tool panel will appear in object mode.
+
+## Usage
+Select face mesh, go to the tool panel, select wimdo file and press the button.
